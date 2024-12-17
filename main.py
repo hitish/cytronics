@@ -5,6 +5,7 @@ import io
 import pdfplumber
 from model.xomad_gliner import XomadGliner
 
+
 # Simple authentication
 def check_password():
     def password_entered():
