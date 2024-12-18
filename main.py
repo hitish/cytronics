@@ -12,7 +12,7 @@ load_dotenv()
 def check_password():
     def password_entered():
         pwd = os.getenv("PASSWORD")
-        if st.session_state["password"] == pwd:
+        if st.session_state["password"] == st.secrets["password"]:
             st.session_state["password_correct"] = True
             del st.session_state["password"]
         else:
@@ -50,8 +50,10 @@ def extract_info_from_pdf(pdf_file, items_to_extract, page_number):
     #labels = items_to_extract.split(",")
     results = []
     model_input = {"text": table_str, "labels": items_to_extract}
-    api_key = os.getenv("API_KEY")
-    api_url = os.getenv("API_URL")
+    #api_key = os.getenv("API_KEY")
+    api_key = st.secrets["API_KEY"]
+    #api_url = os.getenv("API_URL")
+    api_url = st.secrets["API_URL"]
     resp = requests.post(
         api_url,
         headers={"Authorization": f"Api-Key {api_key}"},
