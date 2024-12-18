@@ -1,15 +1,18 @@
 import streamlit as st
 #import PyPDF2
 import pandas as pd
-import io
+import io,os
 import pdfplumber
-from model.xomad_gliner import XomadGliner
+import requests
+from dotenv import load_dotenv
 
+load_dotenv()
 
 # Simple authentication
 def check_password():
     def password_entered():
-        if st.session_state["password"] == st.secrets["password"]:
+        pwd = os.getenv("PASSWORD")
+        if st.session_state["password"] == pwd:
             st.session_state["password_correct"] = True
             del st.session_state["password"]
         else:
@@ -46,8 +49,15 @@ def extract_info_from_pdf(pdf_file, items_to_extract, page_number):
     print(items_to_extract)
     #labels = items_to_extract.split(",")
     results = []
-    model = XomadGliner()
-    entity_list = model.detect(table_str,items_to_extract)
+    model_input = {"text": table_str, "labels": items_to_extract}
+    api_key = os.getenv("API_KEY")
+    api_url = os.getenv("API_URL")
+    resp = requests.post(
+        api_url,
+        headers={"Authorization": f"Api-Key {api_key}"},
+        json=model_input,
+    )
+    entity_list = resp.json()
     print(entity_list)
     for entity in entity_list:
         results.append([entity["label"],entity["text"]])
