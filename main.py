@@ -4,9 +4,9 @@ import pandas as pd
 import io,os
 import pdfplumber
 import requests
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from model.xomad_gliner import XomadGliner
-load_dotenv()
+#load_dotenv()
 from pydantic import BaseModel
 from typing import List
 
