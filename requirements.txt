@@ -2,3 +2,4 @@ streamlit
 gliner
 pandas
 pdfplumber
+pydantic
